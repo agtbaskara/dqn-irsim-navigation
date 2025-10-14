@@ -8,6 +8,10 @@ A hobby implementation of Deep Q-Network (DQN) for autonomous robot navigation i
 
 This project teaches a virtual robot to navigate mazes using Deep Reinforcement Learning. The robot observes its position, the goal location, and LiDAR sensor readings, then learns navigation strategies through trial and error.
 
+## Demo
+
+https://github.com/user-attachments/assets/6dafb664-7841-4e3c-bddc-c54f0255b94a
+
 ## Features
 
 - Gymnasium-compatible environment wrapper for IR-SIM
