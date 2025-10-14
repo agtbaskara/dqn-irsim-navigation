@@ -1,0 +1,59 @@
+world:
+  height: 10
+  width: 10
+  step_time: 0.1
+  sample_time: 0.1
+
+robot:
+  kinematics: {name: 'diff'}
+  shape: {name: 'circle', radius: 0.2}
+  state: [1, 1, 0]
+  goal: [9, 9, 0]
+  vel_max: [2, 2]
+  behavior: {name: 'gym_control'}
+  
+  sensors:
+    - name: 'lidar2d'
+      range_min: 0
+      range_max: 10        # 10m range
+      angle_range: 6.28318  # 360 degrees (2*pi radians)
+      number: 24            # Exactly 24 beams (every 15 degrees)
+      noise: False
+      alpha: 0.3
+
+obstacle:
+  # Four circular obstacles with adjusted positions
+  
+  # Upper-left circle (moved slightly)
+  - shape: {name: 'circle', radius: 0.5}
+    state: [3.5, 6.5, 0]
+  
+  # Upper-right circle (moved slightly)
+  - shape: {name: 'circle', radius: 0.5}
+    state: [7.5, 7.5, 0]
+  
+  # Lower-left circle (moved slightly)
+  - shape: {name: 'circle', radius: 0.5}
+    state: [3, 4, 0]
+  
+  # Lower-center circle (moved slightly)
+  - shape: {name: 'circle', radius: 0.5}
+    state: [5.5, 3, 0]
+  
+  # Boundary walls (forming a box around the world)
+  
+  # Bottom wall
+  - shape: {name: 'rectangle', length: 10.2, width: 0.2}
+    state: [5, 0, 0]
+  
+  # Top wall
+  - shape: {name: 'rectangle', length: 10.2, width: 0.2}
+    state: [5, 10, 0]
+  
+  # Left wall
+  - shape: {name: 'rectangle', length: 0.2, width: 10.2}
+    state: [0, 5, 0]
+  
+  # Right wall
+  - shape: {name: 'rectangle', length: 0.2, width: 10.2}
+    state: [10, 5, 0]

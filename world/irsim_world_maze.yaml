@@ -1,0 +1,73 @@
+world:
+  height: 10
+  width: 10
+  step_time: 0.1
+  sample_time: 0.1
+
+robot:
+  kinematics: {name: 'diff'}
+  shape: {name: 'circle', radius: 0.2}
+  state: [1, 9, 0]
+  goal: [9, 1, 0]
+  vel_max: [2, 2]
+  behavior: {name: 'gym_control'}
+  
+  sensors:
+    - name: 'lidar2d'
+      range_min: 0
+      range_max: 10        # 10m range
+      angle_range: 6.28318  # 360 degrees (2*pi radians)
+      number: 24            # Exactly 24 beams (every 15 degrees)
+      noise: False
+      alpha: 0.3
+
+obstacle:
+  # Two circular obstacles (randomized positions)
+  
+  # Circle 1
+  - shape: {name: 'circle', radius: 0.35}
+    state: [3.5, 7.5, 0]
+  
+  # Circle 2
+  - shape: {name: 'circle', radius: 0.35}
+    state: [6.5, 3.5, 0]
+  
+  # Randomized maze walls (5 walls total)
+  
+  # Wall 1 - horizontal
+  - shape: {name: 'rectangle', length: 2.5, width: 0.2}
+    state: [7, 8, 0]
+  
+  # Wall 2 - vertical
+  - shape: {name: 'rectangle', length: 0.2, width: 2.8}
+    state: [4.5, 5.5, 0]
+  
+  # Wall 3 - horizontal
+  - shape: {name: 'rectangle', length: 3.2, width: 0.2}
+    state: [2.5, 4.5, 0]
+  
+  # Wall 4 - vertical
+  - shape: {name: 'rectangle', length: 0.2, width: 2.2}
+    state: [8, 5.5, 0]
+  
+  # Wall 5 - horizontal
+  - shape: {name: 'rectangle', length: 2.8, width: 0.2}
+    state: [5.5, 2.5, 0]
+  
+  # Boundary walls (forming a box around the world)
+  
+  # Bottom wall
+  - shape: {name: 'rectangle', length: 10.2, width: 0.2}
+    state: [5, 0, 0]
+  
+  # Top wall
+  - shape: {name: 'rectangle', length: 10.2, width: 0.2}
+    state: [5, 10, 0]
+  
+  # Left wall
+  - shape: {name: 'rectangle', length: 0.2, width: 10.2}
+    state: [0, 5, 0]
+  
+  # Right wall
+  - shape: {name: 'rectangle', length: 0.2, width: 10.2}
+    state: [10, 5, 0]
