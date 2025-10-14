@@ -2,11 +2,7 @@
 
 A hobby implementation of Deep Q-Network (DQN) for autonomous robot navigation in maze environments. The robot learns to navigate from random start positions to goal locations using LiDAR sensors and position information.
 
-> **Inspired by:** "Federated Reinforcement Learning Framework for Mobile Robot Navigation Using ROS and Gazebo" by Xing An et al. (IEEE Internet of Things Magazine, 2025). While that paper tackles federated learning with multiple robots using ROS/Gazebo, this is a simpler standalone implementation using IR-SIM - perfect for learning and experimentation.
-
-## Overview
-
-This project teaches a virtual robot to navigate mazes using Deep Reinforcement Learning. The robot observes its position, the goal location, and LiDAR sensor readings, then learns navigation strategies through trial and error.
+> **Inspired by:** "Federated Reinforcement Learning Framework for Mobile Robot Navigation Using ROS and Gazebo" by Xing An et al. (IEEE Internet of Things Magazine, 2025). While that paper tackles federated learning with multiple robots using ROS/Gazebo, this is a simplified Non-Federated Learning single robot implementation using IR-SIM - perfect for learning and experimentation.
 
 ## Demo
 
@@ -15,7 +11,7 @@ https://github.com/user-attachments/assets/6dafb664-7841-4e3c-bddc-c54f0255b94a
 ## Features
 
 - Gymnasium-compatible environment wrapper for IR-SIM
-- Custom behavior system for Gymnasium control integration
+- IR-SIM custom behavior wrapper for Gymnasium control integration
 - DQN with experience replay and target network
 - Discrete action space with 7 actions
 - LiDAR-based perception (24 laser beams)
@@ -227,10 +223,10 @@ Try adjusting:
 
 ## Acknowledgments
 
-- Built on the [IR-SIM](https://github.com/zhangzhenghsy/IR-SIM) robot simulator
+- Built on the [IR-SIM](https://github.com/hanruihua/ir-sim) robot simulator
 - Uses the [Gymnasium](https://gymnasium.farama.org/) framework
 - Implements the DQN algorithm with target network and experience replay
-- Inspired by ["Federated Reinforcement Learning Framework for Mobile Robot Navigation Using ROS and Gazebo"](https://ieeexplore.ieee.org/) (An et al., IEEE Internet of Things Magazine, 2025)
+- Inspired by ["Federated Reinforcement Learning Framework for Mobile Robot Navigation Using ROS and Gazebo"](https://ieeexplore.ieee.org/document/11025184) (An et al., IEEE Internet of Things Magazine, Volume: 8, Issue: 5, September 2025)
 
 ## License
 
