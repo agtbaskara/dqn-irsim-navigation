@@ -1,8 +1,10 @@
 # DQN Robot Navigation with IR-SIM
 
+**[NEW: Experimental Federated Learning Support]**
+
 A hobby implementation of Deep Q-Network (DQN) for autonomous robot navigation in maze environments. The robot learns to navigate from random start positions to goal locations using LiDAR sensors and position information.
 
-> **Inspired by:** "Federated Reinforcement Learning Framework for Mobile Robot Navigation Using ROS and Gazebo" by Xing An et al. (IEEE Internet of Things Magazine, 2025). While that paper tackles federated learning with multiple robots using ROS/Gazebo, this is a simplified Non-Federated Learning single robot implementation using IR-SIM - perfect for learning and experimentation.
+> **Inspired by:** "Federated Reinforcement Learning Framework for Mobile Robot Navigation Using ROS and Gazebo" by Xing An et al. (IEEE Internet of Things Magazine, 2025). While that paper tackles federated learning with multiple robots using ROS/Gazebo, this is a simplified implementation using IR-SIM - perfect for learning and experimentation.
 
 ## Demo
 
@@ -79,7 +81,7 @@ python train_dqn_irsim.py --episodes 1000
 **Available training options:**
 ```bash
 python train_dqn_irsim.py \
-    --episodes 1000 \              # Number of training episodes
+    --episodes 1000 \               # Number of training episodes
     --render \                      # Enable visualization (slower)
     --no-randomize \                # Use fixed start/goal positions
     --world irsim_world.yaml        # World configuration file
@@ -220,6 +222,73 @@ Try adjusting:
 - Reward function parameters
 - Epsilon decay rate
 - Network architecture
+
+## [EXPERIMENTAL] Federated Learning
+
+> ⚠️ **Experimental Feature**: Federated learning implementation is under development and may have stability issues.
+
+Train multiple robots in parallel across different environments using federated learning.
+
+### Architecture
+
+```
+        ┌─────────────┐
+        │   Server    │  ← Aggregates weights (FedAvg)
+        │ Global Model│
+        └──────┬──────┘
+               │
+       ┌───────┴────┬────────┬────────┐
+       │            │        │        │
+    ┌──▼──┐      ┌──▼──┐  ┌──▼──┐  ┌──▼──┐
+    │Robot│      │Robot│  │Robot│  │Robot│
+    │  1  │      │  2  │  │  3  │  │  4  │
+    └─────┘      └─────┘  └─────┘  └─────┘
+   World 1      World 2  World 3  World 4
+```
+
+### Usage
+
+**Step 1**: Create diverse world configurations in `world/` folder:
+```bash
+# Use existing worlds or create new ones
+cp world/irsim_world.yaml world/irsim_world_variant1.yaml
+# Edit variant1 to have different obstacles, sizes, etc.
+```
+
+**Step 2**: Train with federated learning:
+```bash
+python train_federated_dqn.py \
+    --clients 4 \
+    --rounds 50 \
+    --episodes 20 \
+    --worlds irsim_world.yaml irsim_world_variant1.yaml irsim_world_variant2.yaml irsim_world_variant3.yaml \
+    --aggregation weighted
+```
+
+**Parameters:**
+- `--clients`: Number of robots training in parallel (2-6 recommended)
+- `--rounds`: Federated learning rounds (30-100)
+- `--episodes`: Episodes per round before synchronization (10-50)
+- `--worlds`: List of world configuration files (one per client, or will repeat)
+- `--aggregation`: 
+  - `simple`: Equal weight averaging (FedAvg)
+  - `weighted`: Performance-based averaging (better clients get more influence)
+
+**Step 3**: Test the federated model (use your original test script!):
+```bash
+python test_dqn_irsim.py \
+    --checkpoint federated_final.pth \
+    --episodes 20 \
+    --world irsim_world_4circles_moved.yaml
+```
+
+### Federated Training Details
+
+- **Communication**: Clients share model weights (not data) with server every N episodes
+- **Aggregation**: Server averages weights using FedAvg or weighted averaging
+- **Synchronization**: All clients receive updated global model simultaneously
+- **Checkpoints**: Saved every 10 rounds to `checkpoint/federated_round_<N>.pth`
+- **Final Model**: Saved to `checkpoint/federated_final.pth`
 
 ## Acknowledgments
 
